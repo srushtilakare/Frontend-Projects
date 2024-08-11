@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+<style>
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #333; 
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.subnav {
+  float: left;
+  overflow: hidden;
+}
+
+.subnav .subnavbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .subnav:hover .subnavbtn {
+  background-color: #D27FEF;
+}
+
+.subnav-content {
+  display: none;
+  position: absolute;
+  left: 0;
+  background-color: #DF9EF6;
+  width: 100%;
+  z-index: 1;
+}
+
+.subnav-content a {
+  float: left;
+  color: white;
+  text-decoration: none;
+}
+
+.subnav-content a:hover {
+  background-color: #eee;
+  color: black;
+}
+
+.subnav:hover .subnav-content {
+  display: block;
+}
+
+ /* Login and Signup Forms */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+  padding-top: 60px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto;
+  border: 1px solid #888;
+  width: 80%;
+  padding: 20px;
+}
+
+.close {
+  position: absolute;
+  right: 35px;
+  top: 15px;
+  font-size: 40px;
+  color: #f1f1f1;
+}
+
+.close:hover,
+.close:focus {
+  color: #f44336;
+  cursor: pointer;
+}
+
+/* Adjustments for input fields and buttons */
+input[type=text], input[type=password], input[type=email] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the login form and signup form stack on top of each other */
+@media screen and (max-width: 600px) {
+  .modal-content {
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<div class="navbar">
+  <a href="#home">Home</a>
+  <div class="subnav">
+    <button class="subnavbtn">Categories <i class="fa fa-caret-down"></i></button>
+    <div class="subnav-content">
+      <a href="http://localhost/main/Men.html"><b>Men</b></a>
+      <a href="http://localhost/main/Women.html"><b>Women</b></a>
+      <a href="http://localhost/main/kids.html"><b>Kids</b></a>
+    </div>
+  </div>
+  <a href="#contact">Add To Cart</a>
+  <a href="#contact">Wishlist</a>
+
+<button onclick="document.getElementById('loginModal').style.display='block'" style="width:auto;">Login</button>
+
+</div>
+
+ 
+  <!-- Login Modal -->
+<div id="loginModal" class="modal">
+  <form class="modal-content animate" action="connect.php" method="post">
+    <div class="container">
+      <h1>Login</h1>
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="uname" required>
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
+      <button type="submit" >Login</button>
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+      <p>New User? <a href="#" onclick="document.getElementById('loginModal').style.display='none'; document.getElementById('signupModal').style.display='block';">Sign Up</a></p>
+    </div>
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('loginModal').style.display='none'" class="cancelbtn">Cancel</button>
+      <span class="psw"><a href="#">Forget Password?</a></span>
+    </div>
+  </form>
+</div>
+
+<!-- Signup Modal -->
+<div id="signupModal" class="modal">
+  <form class="modal-content animate" action="newuser.php" method="post">
+    <div class="container">
+      <h1>Sign Up</h1>
+      <label for="first"><b>First Name</b></label>
+      <input type="text" placeholder="Enter First Name" name="firstn" required>
+      <label for="last"><b>Last Name</b></label>
+      <input type="text" placeholder="Enter Last Name" name="lastn" required>
+      <label for="contact"><b>Mobile No.</b></label>
+      <input type="text" placeholder="Enter Mobile Number" name="contact" required>
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="uname" required>
+      <label for="email"><b>Email</b></label>
+      <input type="email" placeholder="Enter Email" name="email" required>
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
+      <label for="psw_repeat"><b>Repeat Password</b></label>
+      <input type="password" placeholder="Repeat Password" name="psw_repeat" required>
+      <button type="submit">Sign Up</button>
+      <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+      <p>Already have an account? <a href="#" onclick="document.getElementById('signupModal').style.display='none'; document.getElementById('loginModal').style.display='block';">Login</a></p>
+    </div>
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('signupModal').style.display='none'" class="cancelbtn">Cancel</button>
+    </div>
+  </form>
+</div>
+
+<script>
+// Get the modal
+var loginModal = document.getElementById('loginModal');
+var signupModal = document.getElementById('signupModal');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == loginModal || event.target == signupModal) {
+    loginModal.style.display = "none";
+    signupModal.style.display = "none";
+  }
+}
+</script>
+
+
+<!.....................................search menu.........................>
+
+
+
+<style>
+body {
+  font-family: Comic Sans, Candara, Courier;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create a column layout with Flexbox */
+.row {
+  display: flex;
+}
+
+/* Left column (menu) */
+.left {
+  flex: 5%;
+  padding: 15px 0;
+}
+
+.left h2 {
+  padding-left: 8px;
+}
+
+/* Right column (page content) */
+.right {
+  flex: 65%;
+  padding: 15px;
+}
+
+/* Style the search box */
+#mySearch {
+  width: 100%;
+  font-size: 18px;
+  padding: 11px;
+  border: 1px solid #ddd;
+}
+
+/* Style the navigation menu inside the left column */
+#myMenu {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#myMenu li a {
+  padding: 12px;
+  text-decoration: none;
+  color: white;
+  display: block
+}
+
+#myMenu li a:hover {
+  background-color: #A569BD ;
+}
+</style>
+</head>
+<body>
+
+
+ 
+ 
+ 
+
+<div class="row">
+  <div class="left" style="background-color:#4A235A ;">
+    <h2 style="color:white;">Menu</h2>
+    <i><input type="text" id="mySearch" onkeyup="myFunction()" placeholder="Search.." title="Type in a category"></i>
+    <ul id="myMenu">
+      <li><a href="file:///C:/Users/ECS/Desktop/Website.html">Casual</a></li>
+      <li><a href="#">Formal</a></li>
+      <li><a href="#">Ethinic Wear</a></li>
+      <li><a href="#">Treditional</a></li>
+      <li><a href="#">Party Wear</a></li>
+      <li><a href="#">Jeans</a></li>
+      <li><a href="#">Jackets</a></li>
+      <li><a href="#">Shirts</a></li>
+      <li><a href="#">Shoes</a></li>
+      <li><a href="#">Accessories</a></li>
+      <li><a href="http://localhost/main/SHP.html">Second Hand Products</a></li>
+    </ul>
+  </div>
+  
+  <div class="right" style="background-color:#F5EEF8;">
+
+
+    <h2 style="font-family:ink free;"><b>"Style is something each of us already has, all we need to do is find it."</b></h2>
+
+
+ <!..........................overlay......................>
+
+<style>
+body {
+  font-family: 'Lato', sans-serif;
+}
+
+.overlay {
+  height: 0%;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0, 0.9);
+  overflow-y: hidden;
+  transition: 0.5s;
+}
+
+.overlay-content {
+  position: relative;
+  top: 25%;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.overlay a {
+  padding: 8px;
+  text-decoration: none;
+  font-size: 36px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.overlay a:hover, .overlay a:focus {
+  color: #f1f1f1;
+}
+
+.overlay .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+}
+
+@media screen and (max-height: 450px) {
+  .overlay {overflow-y: auto;}
+  .overlay a {font-size: 20px}
+  .overlay .closebtn {
+  font-size: 40px;
+  top: 15px;
+  right: 35px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="myNav" class="overlay">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <div class="overlay-content">
+    <a href="http://localhost/main/about.html">About</a>
+    <a href="#">Services</a>
+    <a href="#">Clients</a>
+    <a href="#">Contact</a>
+  </div>
+</div>
+
+<!..........................................................................>
+
+
+
+
+
+
+
+
+
+<!..........................................................................>
+
+
+<P align="right"><span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776; Want to Sell?</span></P align>
+
+<script>
+function openNav() {
+  document.getElementById("myNav").style.height = "100%";
+}
+
+function closeNav() {
+  document.getElementById("myNav").style.height = "0%";
+}
+</script>
+
+
+<!.............................images slideshow..........................>
+
+
+<style>
+* {box-sizing: border-box;}
+body {font-family: Verdana, sans-serif;}
+.mySlides {display: none;}
+img {vertical-align: middle;}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+ 
+
+/* The dots/bullets/indicators */
+.dot {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .text {font-size: 11px}
+}
+</style>
+</head>
+<body>
+
+
+
+<div class="slideshow-container">
+
+<div class="mySlides fade">
+   
+ <center> <img src="http://localhost/main/sl.jpg" style="width:65%"> </center>
+  <div class="text">    </div>
+</div>
+
+<div class="mySlides fade">
+  
+  <center><img src="http://localhost/main/indian-men-that-prove-street-style-fashion-is-here-to-stay-980x457-1467110912.jpg" style="width:70%"></center>
+  <div class="text">      </div>
+</div>
+
+<div class="mySlides fade">
+   
+  <center><img src="http://localhost/main/kids-blog-01.jpg" style="width:50%"> </center>
+  <div class="text">     </div>
+</div>
+
+ <div class="mySlides fade">
+   
+  <center><img src="http://localhost/main/trending-products_c8d0d15c-9afc-47e3-9ba2-f7bad0505b9b.webp" style="width:70%"> </center>
+  <div class="text">     </div>
+</div>
+
+<div class="mySlides fade">
+   
+  <center><img src="http://localhost/main/secondhandproductstore1.jpg" style="width:50%"> </center>
+  <div class="text">     </div>
+</div>
+
+
+ 
+<br>
+
+<div style="text-align:center">
+  <span class="dot"></span> 
+  <span class="dot"></span> 
+  <span class="dot"></span> 
+<span class="dot"></span> 
+<span class="dot"></span> 
+</div>
+
+<script>
+let slideIndex = 0;
+showSlides();
+
+function showSlides() {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("dot");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";  
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}    
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";  
+  dots[slideIndex-1].className += " active";
+  setTimeout(showSlides, 4000); // Change image every 4 seconds
+}
+</script>
+
+    
+    
+    
+    
+  <div style="padding:20px 30px">
+   
+
+<style>
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.column {
+  float: left;
+  width: 33.3%;
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
+
+@media screen and (max-width: 650px) {
+  .column {
+    width: 100%;
+    display: block;
+  }
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  padding: 0 16px;
+}
+
+.container::after, .row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.title {
+  color: green;
+}
+
+.button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.button:hover {
+  background-color: #555;
+}
+</style>
+</head>
+<body>
+
+<h2>Create Your Own Fashion World With Us :)</h2>
+<p>Shoes,Watches,Dresses and Many More...</p>
+<br>
+
+<div class="row">
+  <div class="column">
+    <div class="card">
+      <img src="http://localhost/main/casual2479ss24grn_1.jpg" style="width:90%">
+      <div class="container">
+        <h4>Jane Doe</h4>
+        <p class="title"><b>Rs. 2,999</b></p>
+        <p>GREEN COTTON TIERED DRESS</p>
+        <p>Top Pattern: Printed</p>
+        <p><button class="button">Add To Cart</button></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="card">
+      <img src="http://localhost/main/72d6c5e9f79c41112cc2c9f2e6f19883.jpg"   style="width:90%">
+      <div class="container">
+        <h4>Mike Ross</h4>
+        <p class="title"><b>Rs. 799</b></p>
+        <p>Ethnic Gents Dress Chikankari Mirror Work Purple Fancy Eid Kurta for Men and Boys only Punjabi Kurtas</p>
+        <p>Pure Cotton</p>
+        <p><button class="button">Add To Cart</button></p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="column">
+    <div class="card">
+      <img src="http://localhost/main/UC108404.jpg"  style="width:100%">
+      <div class="container">
+        <h4>John Doe</h4>
+        <p class="title"><b>Rs. 950</b></p>
+        <p> Merahki Clothing Men Printed Ethnic Dress Kurta (Black)</p>
+        <p>Chikankari Pattern</p>
+        <p><button class="button">Add To Cart</button></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="row">
+  <div class="column">
+    <div class="card">
+      <img src="http://localhost/main/koskii-pistagreen-printed-tissue-designer-salwar-suit-ssrm0022268_pista_green_4_large.webp"  style="width:100%">
+      <div class="container">
+        <h4>GLADLY</h4>
+        <p class="title"><b>Rs. 299</b></p>
+        <p>Women Pure Cotton Kurta Pant Dupatta Set</p>
+        <p>Size XS, S, M, L, XL, XXL</p>
+        <p><button class="button">Add To Cart</button></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="card">
+      <img src="http://localhost/main/1_1296x_91a97c0e-35db-4bc9-8fd6-5948ed7436f2.webp"  style="width:100%">
+      <div class="container">
+        <h4>Mike Ross</h4>
+        <p class="title"><b>Rs. 1819</b></p>
+        <p>BLUE COTTON BLEND STRAIGHT YARNDYED KURTA</p>
+        <p>Blue Cotton Blend Straight Yarndyed Kurta</p>
+        <p><button class="button">Add To Cart</button></p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="column">
+    <div class="card">
+      <img src="http://localhost/main/f6a7b43d-d1f4-4dc3-a463-f120050ca9cf.__CR0,0,1500,1500_PT0_SX300_V1___.jpg"   style="width:90%">
+      <div class="container">
+        <h4>TimelyCo</h4>
+        <p class="title"><b>Rs. 170</b></p>
+        <p>DB Impossible Screen Guard for FASTRACK TEES ANALOG BLACK DAIL SMARTWATCH SCREEN GUARD  (Pack of 1)</p>
+        <p>Waterproof</p>
+        <p><button class="button">Add To Cart</button></p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="column">
+    <div class="card">
+      <img src="http://localhost/main/111.jpg"   style="width:100%">
+      <div class="container">
+        <h4>kidssection</h4>
+        <p class="title"><b>Rs. 760</b></p>
+        <p>Lime Green Partywear Frock with Spreaded Purple Butterflies.</p>
+        <p style="color:red;"><i>Currntly Unavailable</i></p>
+        <p><button class="button">Add To Cart</button></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="card">
+      <img src="http://localhost/main/s-l1200.jpg"  style="width:100%">
+      <div class="container">
+        <h4>Carlton London</h4>
+        <p class="title"><b>Rs. 1779</b></p>
+        <p>Men Brown Leather Formal Shoes</p>
+        <p>Size: 6,7,8,9</p>
+        <p><button class="button">Add To Cart</button></p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="column">
+    <div class="card">
+      <img src="http://localhost/main/images (3).jpeg"  style="width:100%">
+      <div class="container">
+        <h4>WROGN</h4>
+        <p class="title"><b>Rs. 497</b></p>
+        <p> Men Black Analogue Watch MFB-PN-W4036G</p>
+        <p>Seller: Flashstar Commerce</p>
+        <p><button class="button">Add To Cart</button></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    
+    
+    
+<!..................................................................................>    
+  </div>
+</div>
+
+<script>
+function myFunction() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("mySearch");
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("myMenu");
+  li = ul.getElementsByTagName("li");
+  for (i = 0; i < li.length; i++) {
+    a = li[i].getElementsByTagName("a")[0];
+    if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
+}
+</script>
+
+</body>
+</html>
